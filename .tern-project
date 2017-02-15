@@ -1,0 +1,13 @@
+{
+  "ecmaVersion": 7,
+  "libs": [
+    "ecmascript",
+    "browser",
+    "chai"
+  ],
+  "plugins": {
+    "doc_comment": true,
+    "es_modules": true,
+    "node": true
+  }
+}
