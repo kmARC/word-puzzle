@@ -6,8 +6,12 @@
     "chai"
   ],
   "plugins": {
+    "angular": true,
+    "commonjs": true,
     "doc_comment": true,
     "es_modules": true,
-    "node": true
+    "modules": true,
+    "node": true,
+    "webpack": true
   }
 }
