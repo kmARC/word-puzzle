@@ -1,3 +1,55 @@
-kbd.used {
-  background-color: gray;
+.component {
+    // transition: transform 1s ease-in-out;
+    // transform: translateX(100%);
+    padding: 20px;
 }
+
+.WelcomeComponent  {
+    .component;
+}
+
+.GameComponent {
+    .component;
+
+    kbd {
+        font-size: 20px;
+        margin: 5px;
+        position: relative;
+
+        &.used {
+            background-color: gray;
+        }
+    }
+}
+
+.HighScoreComponent {
+    .component;
+}
+
+.view-animate-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow:hidden;
+}
+
+.view-animate {
+    width: 100%;
+    position: absolute;
+    padding:10px;
+}
+
+.view-animate.ng-enter, .view-animate.ng-leave {
+    transition:all ease-in-out 0.3s;
+}
+
+.view-animate.ng-enter {
+    transform: rotateY(-90deg);
+}
+.view-animate.ng-enter.ng-enter-active {
+    transform: rotateY(0deg);
+}
+.view-animate.ng-leave.ng-leave-active {
+    transform: rotateY(90deg);
+}
+

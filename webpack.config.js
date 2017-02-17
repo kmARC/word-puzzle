@@ -10,7 +10,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.less'],
   },
-  devtool: '#inline-source-map',
+  // devtool: '#inline-source-map',
   module: {
     loaders: [
       { test: /\.js$/,
@@ -38,7 +38,14 @@ module.exports = {
     contentBase: path.resolve(__dirname, './static'),
   },
   plugins: process.env.NODE_ENV === 'development'
-    ? []
+    ? [
+      new webpack.optimize.UglifyJsPlugin({
+        test: /.js$/,
+        minimize: true,
+        comments: false,
+        mangle: false,
+      }),
+    ]
     : [
       new webpack.optimize.UglifyJsPlugin({
         test: /.js$/,

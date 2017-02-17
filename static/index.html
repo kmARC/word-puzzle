@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Word puzzle!</title>
   </head>
-  <body ng-app="WordPuzzle">
-    <game-component></game-component>
-
+  <body ng-app="App" ng-controller="AppController">
+    <div class="view-animate-container">
+      <div ng-view class="view-animate"></div>
+    </div>
     <script src="../dist/main.js"></script>
   </body>
 </html>
