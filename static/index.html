@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <title>Word puzzle!</title>
   </head>
-  <body>
-    <div ng-app="GameComponent" ng-controller="GameController">
-      First Name: <input type="text" ng-model="firstName"><br>
-      Last Name: <input type="text" ng-model="lastName"><br>
-      <br>
-      Full Name: {{firstName + " " + lastName}}
-      <p><kbd ng-repeat="x in keys" ng-class="{used: x.used}">{{ x.ch }}</kbd></p>
+  <body ng-app="WordPuzzle">
+    <game-component></game-component>
 
-      <input ng-model="entered" ng-keydown="changed($event)" >
-
-    </div>
     <script src="../dist/main.js"></script>
   </body>
 </html>

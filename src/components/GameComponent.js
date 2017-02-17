@@ -6,25 +6,70 @@
 
 import angular from 'angular';
 
-import { shuffle, toKeys, useKey } from '../Game';
+import { shuffle, toKeys, updateKeys } from '../Game';
 
-const app = angular.module('GameComponent', []);
+const WORDS = [
+  'pizza',
+  'slice',
+  'tomato',
+];
 
-app.controller('GameController', ($scope) => {
-  $scope.firstName = 'John';
-  $scope.lastName = 'Doe';
-  $scope.keys = toKeys(shuffle('pizza'));
-  $scope.changed = (e) => {
-    console.log(e.key, $scope.entered);
-    if (e.key.match(/^[a-zA-Z]$/)) {
-      $scope.keys = useKey($scope.keys, e.key);
-    } else if (e.key.toLowerCase() === 'backspace') {
-      console.log($scope.entered);
-      const l = $scope.entered.length;
-      const ch = $scope.entered.charAt(l - 1);
-      $scope.keys = useKey($scope.keys, ch, false);
+function GameController($document, $scope) {
+  const ctrl = this;
+
+  ctrl.started = false;
+
+  ctrl.keys = [];
+
+  ctrl.currentWord = null;
+
+  ctrl.nextWord = () => {
+    ctrl.currentWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+    ctrl.entered = '';
+    ctrl.keys = toKeys(shuffle(ctrl.currentWord));
+  };
+
+  ctrl.entered = '';
+
+  ctrl.changed = (e) => {
+    const letter = e.key.toLowerCase();
+    const [keys, entered] = updateKeys(ctrl.keys, ctrl.entered, letter);
+    ctrl.entered = entered;
+    ctrl.keys = keys;
+
+    if (ctrl.currentWord.length === ctrl.entered.length) {
+      if (ctrl.currentWord === ctrl.entered) {
+        window.setTimeout(() => {
+          console.log('ok');
+          ctrl.nextWord();
+          $scope.$apply();
+        }, 1000);
+      } else {
+        console.log('WRONG');
+        window.setTimeout(() => {
+          ctrl.nextWord();
+          $scope.$apply();
+        }, 1000);
+      }
+
     }
   };
-});
 
-export default app;
+  ctrl.start = () => {
+    ctrl.started = true;
+    ctrl.nextWord();
+  };
+
+  $document.bind('keypress', (e) => {
+    ctrl.changed(e);
+    e.preventDefault();
+    $scope.$apply();
+  });
+}
+
+const WordPuzzle = angular.module('WordPuzzle', []);
+
+WordPuzzle.component('gameComponent', {
+  templateUrl: 'components/GameComponent.html',
+  controller: GameController,
+});

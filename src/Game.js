@@ -44,7 +44,7 @@ export const toKeys =
  * Mark a key as used / unused based on a typed character.
  * @method
  * @param {Key[]} keys Array of all keys
- * @param {string} ch Character to check
+ * @param {string} ch Character to mark
  * @param {boolean} [use=true] Mark as used if true, otherwise false
  * @returns {Key[]} Updated array of all keys
  */
@@ -55,4 +55,32 @@ export const useKey = (keys, ch, use = true) => {
     : keys.slice(0, idx)
           .concat([fp.set('used')(use)(keys[idx])])
           .concat(keys.slice(idx + 1));
+};
+
+/**
+ * Decide whether there is any unused keys still remaining
+ * @method
+ * @param {Key[]} keys Array of all keys
+ * @param {string} ch Character to check
+ * @returns {boolean} True if there is an unused keys for the letter, false
+ *                    otherwise
+ */
+export const isUnused =
+  (keys, ch) => keys.findIndex(el => el.ch === ch && !el.used) !== -1;
+
+
+/**
+ * Update keys based on the already entered word and last pressed key
+ * @param {Key[]} keys Array of all keys
+ * @param {string} entered Text already entered
+ * @param {string} pressedKey Pressed letter / key in lowercase (Event.key)
+ * @returns {[Keys[], string]} Tuple of keys and updated entered string
+ */
+export const updateKeys = (keys, entered, pressedKey) => {
+  const lastLetter = (entered.length > 0) ? fp.last(entered) : '';
+  return (pressedKey.match(/^[a-zA-Z]$/) && isUnused(keys, pressedKey))
+    ? [useKey(keys, pressedKey), entered + pressedKey]
+    : (pressedKey === 'backspace')
+    ? [useKey(keys, lastLetter, false), fp.initial(entered).join('')]
+    : [keys, entered];
 };

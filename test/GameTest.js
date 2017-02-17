@@ -1,7 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { shuffle, toKeys, useKey } from '../src/Game';
+import { isUnused, shuffle, toKeys, useKey, updateKeys } from '../src/Game';
+
+const PIZZA = [{ id: 0, ch: 'p', used: false },
+               { id: 1, ch: 'i', used: false },
+               { id: 2, ch: 'z', used: false },
+               { id: 3, ch: 'z', used: false },
+               { id: 4, ch: 'a', used: false }];
 
 describe('GameTest', () => {
   it('keys', () => {
@@ -10,11 +16,7 @@ describe('GameTest', () => {
     let r;
 
     v = 'pizza';
-    e = [{ id: 0, ch: 'p', used: false },
-         { id: 1, ch: 'i', used: false },
-         { id: 2, ch: 'z', used: false },
-         { id: 3, ch: 'z', used: false },
-         { id: 4, ch: 'a', used: false }];
+    e = PIZZA.slice(0);
     r = toKeys(v);
     expect(r).to.be.eql(e);
 
@@ -24,7 +26,7 @@ describe('GameTest', () => {
     expect(r).to.be.eql(e);
   });
 
-  it('shuffles', () => {
+  it('shuffle', () => {
     let v;
     let e;
     let r;
@@ -45,11 +47,7 @@ describe('GameTest', () => {
     let e;
     let r;
 
-    v = [{ id: 0, ch: 'p', used: false },
-         { id: 1, ch: 'i', used: false },
-         { id: 2, ch: 'z', used: false },
-         { id: 3, ch: 'z', used: false },
-         { id: 4, ch: 'a', used: false }];
+    v = PIZZA.slice(0);
     e = [{ id: 0, ch: 'p', used: false },
          { id: 1, ch: 'i', used: true },
          { id: 2, ch: 'z', used: false },
@@ -59,21 +57,71 @@ describe('GameTest', () => {
     expect(r).to.be.eql(e);
 
     v = [{ id: 0, ch: 'p', used: false },
-         { id: 1, ch: 'i', used: false },
+         { id: 1, ch: 'i', used: true },
          { id: 2, ch: 'z', used: false },
          { id: 3, ch: 'z', used: false },
          { id: 4, ch: 'a', used: false }];
-    e = [{ id: 0, ch: 'p', used: false },
-         { id: 1, ch: 'i', used: false },
-         { id: 2, ch: 'z', used: false },
-         { id: 3, ch: 'z', used: false },
-         { id: 4, ch: 'a', used: false }];
+    e = PIZZA.slice(0);
+    r = useKey(v, 'i', false);
+    expect(r).to.be.eql(e);
+
+    v = PIZZA.slice(0);
+    e = PIZZA.slice(0);
     r = useKey(v, 'q');
     expect(r).to.be.eql(e);
 
     v = [];
     e = [];
     r = useKey(v, 'q');
+    expect(r).to.be.eql(e);
+  });
+
+  it('isUnused', () => {
+    let v;
+    let e;
+    let r;
+
+    v = PIZZA.slice(0);
+    e = true;
+    r = isUnused(v, 'p');
+    expect(r).to.be.eql(e);
+
+    v = PIZZA.slice(0);
+    e = false;
+    r = isUnused(v, 'q');
+    expect(r).to.be.eql(e);
+
+    v = [];
+    e = false;
+    r = isUnused(v, 'p');
+    expect(r).to.be.eql(e);
+  });
+
+  it('updateKeys', () => {
+    let v;
+    let e;
+    let r;
+
+    v = PIZZA.slice(0);
+    e = [[{ id: 0, ch: 'p', used: false },
+         { id: 1, ch: 'i', used: true },
+         { id: 2, ch: 'z', used: false },
+         { id: 3, ch: 'z', used: false },
+         { id: 4, ch: 'a', used: false }], 'i'];
+    r = updateKeys(v, '', 'i');
+    expect(r).to.be.eql(e);
+
+    v = [{ id: 0, ch: 'p', used: true },
+         { id: 1, ch: 'i', used: true },
+         { id: 2, ch: 'z', used: false },
+         { id: 3, ch: 'z', used: false },
+         { id: 4, ch: 'a', used: false }];
+    e = [[{ id: 0, ch: 'p', used: true },
+         { id: 1, ch: 'i', used: true },
+         { id: 2, ch: 'z', used: true },
+         { id: 3, ch: 'z', used: false },
+         { id: 4, ch: 'a', used: false }], 'piz'];
+    r = updateKeys(v, 'pi', 'z');
     expect(r).to.be.eql(e);
   });
 });
