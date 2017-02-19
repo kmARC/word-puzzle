@@ -5,8 +5,15 @@
     <title>Word puzzle!</title>
   </head>
   <body ng-app="App" ng-controller="AppController" ng-strict-di>
-    <div class="view-animate-container">
-      <div ng-view class="view-animate"></div>
+    <div class="panel panel-default App">
+      <div class="panel-heading">
+        <h3 class="panel-title">Word Puzzle!</h3>
+      </div>
+      <div class="panel-body">
+        <div class="view-animate-container">
+          <div ng-view class="view-animate"></div>
+        </div>
+      </div>
     </div>
     <script src="../dist/main.js"></script>
   </body>
