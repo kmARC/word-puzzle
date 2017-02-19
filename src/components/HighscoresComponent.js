@@ -4,7 +4,7 @@
  * @see module:Highscores
  */
 
-function HighscoresController() {
+function HighscoresController(state) {
   'ngInject';
 }
 

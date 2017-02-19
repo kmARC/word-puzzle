@@ -4,13 +4,14 @@
  * @see module:Welcome
  */
 
-function WelcomeController($location) {
+function WelcomeController($location, state) {
   'ngInject';
 
   const ctrl = this;
 
   ctrl.start = () => {
     if (ctrl.username && ctrl.username.length) {
+      state.username = ctrl.username;
       $location.url('/game');
     }
   };

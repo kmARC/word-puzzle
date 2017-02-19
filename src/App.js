@@ -30,5 +30,6 @@ App.config(($routeProvider) => {
   });
 });
 
+App.service('state', () => {});
 
 export default App;
