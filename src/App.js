@@ -2,6 +2,8 @@ import angular from 'angular';
 import 'angular-animate';
 import 'angular-route';
 
+import firebase from 'firebase';
+
 import WelcomeComponent from './components/WelcomeComponent';
 import GameComponent from './components/GameComponent';
 import HighscoresComponent from './components/HighscoresComponent';
@@ -30,6 +32,18 @@ App.config(($routeProvider) => {
   });
 });
 
+const FirebaseConfig = {
+  apiKey: 'AIzaSyAFddQfGpY_usZekJ59HQAE1XC8p5vX2qE',
+  authDomain: 'word-puzzle-821c1.firebaseapp.com',
+  databaseURL: 'https://word-puzzle-821c1.firebaseio.com',
+  storageBucket: 'word-puzzle-821c1.appspot.com',
+  messagingSenderId: '835000272051',
+};
+
 App.service('state', () => {});
+App.service('firebase', function() {
+  this.app = firebase.initializeApp(FirebaseConfig);
+  this.database = this.app.database();
+});
 
 export default App;

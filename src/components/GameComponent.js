@@ -12,7 +12,7 @@ const WORDS = [
   'tomato',
 ];
 
-function GameController($document, $scope, $timeout, $interval, $location, state) {
+function GameController($document, $scope, $timeout, $interval, $location, state, firebase) {
   'ngInject';
 
   const ctrl = this;

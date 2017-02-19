@@ -4,8 +4,23 @@
  * @see module:Highscores
  */
 
-function HighscoresController(state) {
+import fp from 'lodash/fp';
+
+function HighscoresController($scope, firebase) {
   'ngInject';
+
+  const ctrl = this;
+  ctrl.highscores = [];
+
+  firebase.database.ref('/highscores').on('value', (snapshot) => {
+    const vals = snapshot.val();
+    const mapper = key => ({ username: key, score: vals[key] });
+    const highscores = fp.keys(vals).map(mapper);
+
+    ctrl.highscores = highscores;
+
+    $scope.$apply();
+  });
 }
 
 const HighscoresComponent = {
