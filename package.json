@@ -4,7 +4,7 @@
   "description": "Word Puzzle game with Angular & Firebase",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && cp -ar static/ dist/",
     "build-watch": "webpack -w",
     "coverage": "nyc npm test",
     "install": "npm run build",
