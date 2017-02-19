@@ -5,7 +5,7 @@
  */
 
 function HighscoresController() {
-  const ctrl = this;
+  'ngInject';
 }
 
 const HighscoresComponent = {

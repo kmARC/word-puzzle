@@ -5,6 +5,8 @@
  */
 
 function WelcomeController($location) {
+  'ngInject';
+
   const ctrl = this;
 
   ctrl.start = () => {

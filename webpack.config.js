@@ -38,14 +38,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, './static'),
   },
   plugins: process.env.NODE_ENV === 'development'
-    ? [
-      new webpack.optimize.UglifyJsPlugin({
-        test: /.js$/,
-        minimize: true,
-        comments: false,
-        mangle: false,
-      }),
-    ]
+    ? []
     : [
       new webpack.optimize.UglifyJsPlugin({
         test: /.js$/,
