@@ -37,6 +37,7 @@
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
     "file-loader": "^0.10.0",
+    "gh-pages-deploy": "^0.4.2",
     "jsdoc": "^3.4.3",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
@@ -68,5 +69,9 @@
       "text",
       "text-summary"
     ]
+  },
+  "gh-pages-deploy": {
+    "staticpath": "dist",
+    "noprompt": false
   }
 }
