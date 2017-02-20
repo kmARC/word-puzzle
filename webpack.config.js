@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const process = require('process');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -37,7 +38,10 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, './static'),
   },
-  plugins: process.env.NODE_ENV === 'development'
+  plugins: [
+    new CopyWebpackPlugin([{ from: 'static', to: 'dist' }]),
+  ].concat(
+    process.env.NODE_ENV === 'development'
     ? []
     : [
       new webpack.optimize.UglifyJsPlugin({
@@ -45,6 +49,6 @@ module.exports = {
         minimize: true,
         comments: false,
       }),
-    ],
+    ]),
 };
 
