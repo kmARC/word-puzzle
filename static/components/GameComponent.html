@@ -1,9 +1,41 @@
 <div class="GameComponent ">
-  <p>{{$ctrl.remaining}}</p>
-  <p><kbd ng-repeat="x in $ctrl.keys" ng-class="{used: x.used}">{{ x.ch }}</kbd></p>
-  <p><kbd ng-repeat="x in $ctrl.enteredKeys" >{{ x.ch }}</kbd></p>
-  <button type="button" class="btn btn-default" ng-click="$ctrl.end()" ng-disabled="! $ctrl.started">End!</button>
-  <p>Score: {{$ctrl.score}}</p>
-  <p>Penalty: {{$ctrl.penalty}}</p>
-  <p>Hint: {{$ctrl.currentWord}}</p>
 </div>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Time left:</label>
+    <div class="col-sm-1">
+      <h2><span class="well">{{$ctrl.remaining}}s</span></h2>
+    </div>
+    <label class="col-sm-2 control-label">Score:</label>
+    <div class="col-sm-1">
+      <h2><span class="well">{{$ctrl.score}}</span></h2>
+    </div>
+    <label class="col-sm-2 control-label">Penalty:</label>
+    <div class="col-sm-1">
+      <h2><span class="well">{{$ctrl.penalty}}</span></h2>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Letters:</label>
+    <div class="col-sm-10">
+      <p class="form-control-static"><kbd ng-repeat="x in $ctrl.keys" ng-class="{used: x.used}">{{ x.ch }}</kbd></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Your guess:</label>
+    <div class="col-sm-10">
+      <p class="form-control-static"><kbd ng-repeat="x in $ctrl.enteredKeys" >{{ x.ch }}</kbd></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Hint:</label>
+    <div class="col-sm-10">
+      <p class="form-control-static"><kbd class="hint" ng-repeat="x in $ctrl.hint" >{{ x.ch }}</kbd></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="button" class="btn btn-default" ng-click="$ctrl.end()" ng-disabled="! $ctrl.started">End!</button>
+    </div>
+  </div>
+</form>

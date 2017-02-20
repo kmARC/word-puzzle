@@ -27,6 +27,7 @@ function GameController($document, $scope, $timeout, $interval, $location, state
   this.score = 0;
   this.wordIdx = 0;
   this.started = false;
+  this.hint = [];
 
   /** Replaces the word to guess */
   this.nextWord = () => {
@@ -34,6 +35,7 @@ function GameController($document, $scope, $timeout, $interval, $location, state
     ctrl.keys = toKeys(shuffle(ctrl.currentWord));
     ctrl.entered = '';
     ctrl.enteredKeys = [];
+    ctrl.hint = [];
   };
 
   /**
@@ -109,6 +111,12 @@ function GameController($document, $scope, $timeout, $interval, $location, state
     ctrl.remaining -= 1;
     if (ctrl.remaining === 0) {
       ctrl.end();
+    }
+    if (ctrl.hint.length < ctrl.currentWord.length) {
+      ctrl.hint = ctrl.hint.concat([{
+        id: ctrl.hint.length,
+        ch: ctrl.currentWord[ctrl.hint.length],
+      }]);
     }
   };
 
