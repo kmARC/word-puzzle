@@ -8,6 +8,7 @@
       "no-param-reassign": [2, {
         "props": false
       }],
-      "no-nested-ternary": 0
+      "no-nested-ternary": 0,
+      "max-len": ["warn", 80]
     }
 }

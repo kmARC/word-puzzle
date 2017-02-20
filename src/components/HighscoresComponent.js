@@ -20,11 +20,13 @@ function HighscoresController($scope, $location, firebase) {
   firebase.database.ref('/highscores').on('value', (snapshot) => {
     const vals = snapshot.val();
     const mapper = key => ({ username: key, score: vals[key] });
-    const highscores = fp.keys(vals).map(mapper);
+    const newHighscores = fp.keys(vals).map(mapper);
 
-    ctrl.highscores = highscores;
+    ctrl.highscores = newHighscores;
 
-    $scope.$apply();
+    if (!$scope.$$phase) {
+      $scope.$apply();
+    }
   });
 }
 

@@ -34,9 +34,10 @@ App.config(($routeProvider) => {
 });
 
 App.service('state', () => {});
-App.service('firebase', function() {
-  this.app = firebase.initializeApp(firebaseConfig);
-  this.database = this.app.database();
+App.service('firebase', function init() {
+  this.firebaseApp = firebase.initializeApp(firebaseConfig);
+  this.database = this.firebaseApp.database();
+
 });
 
 export default App;

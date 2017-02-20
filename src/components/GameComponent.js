@@ -25,12 +25,15 @@ function GameController($document, $scope, $timeout, $interval, $location, state
   this.remaining = 40;
   this.penalty = 0;
   this.score = 0;
+  this.wordIdx = 0;
+  this.started = false;
 
   /** Replaces the word to guess */
   this.nextWord = () => {
-    ctrl.currentWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+    ctrl.currentWord = this.words[this.wordIdx]; this.wordIdx += 1;
     ctrl.keys = toKeys(shuffle(ctrl.currentWord));
     ctrl.entered = '';
+    ctrl.enteredKeys = [];
   };
 
   /**
@@ -38,7 +41,6 @@ function GameController($document, $scope, $timeout, $interval, $location, state
   * @returns {Game.State} current state of game
   */
   const getGameState = () => fp.pick(['keys', 'entered', 'penalty'])(ctrl);
-  console.log(getGameState());
 
   /**
    * Action listener. Handy for the keyUp event
@@ -69,10 +71,16 @@ function GameController($document, $scope, $timeout, $interval, $location, state
 
   /** Start a game */
   this.start = () => {
+    if (!state.username || state.username.length === 0) {
+      $location.url('/');
+      $scope.$apply();
+      return;
+    }
     ctrl.started = true;
     ctrl.nextWord();
     $document.bind('keypress', ctrl.changed);
     ctrl.timer = $interval(ctrl.countDownOne, 1000);
+    $scope.$apply();
   };
 
   /** End a game */
@@ -81,7 +89,14 @@ function GameController($document, $scope, $timeout, $interval, $location, state
     $document.unbind('keypress', ctrl.changed);
     $interval.cancel(ctrl.timer);
 
-    firebase.database.ref(`/highscores/${state.username}`).set(Math.max(0, ctrl.score - ctrl.penalty));
+    // Promised update
+    firebase.database.ref(`/highscores/${state.username}`)
+      .once('value').then((snapshot) => {
+        const newScore = Math.max(0, ctrl.score - ctrl.penalty);
+        if (!fp.isNumber(snapshot.val()) || snapshot.val() < newScore) {
+          firebase.database.ref(`/highscores/${state.username}`).set(newScore);
+        }
+      });
 
     $timeout(() => {
       $location.url('/highscores');
@@ -97,7 +112,23 @@ function GameController($document, $scope, $timeout, $interval, $location, state
     }
   };
 
-  this.start();
+  // Load words
+  // FIXME: promisify
+  const wordsRef = firebase.database.ref('/words');
+  wordsRef.child('MAX').once('value').then((snapshot) => {
+    const max = snapshot.val();
+    const randomIds = fp.times(() => fp.random(0)(max))(40);
+    ctrl.words = [];
+
+    randomIds.forEach((key) => {
+      wordsRef.child(key).once('value').then((childSnapshot) => {
+        ctrl.words = ctrl.words.concat([childSnapshot.val()]);
+        if (!ctrl.started) {
+          ctrl.start();
+        }
+      });
+    });
+  });
 }
 
 /**
