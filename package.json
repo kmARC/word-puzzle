@@ -13,7 +13,8 @@
     "test": "mocha",
     "test-watch": "mocha -w",
     "clean": "rm -rf dist/ jsdoc/ coverage/ node_modules/ .nyc_output",
-    "deploy": "gh-pages -d dist/"
+    "deploy": "gh-pages -d dist/",
+    "eslint": "eslint -c .eslintrc.json src/"
   },
   "repository": {
     "type": "git",
