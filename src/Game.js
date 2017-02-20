@@ -74,7 +74,7 @@ export const isUnused =
  * @param {Key[]} keys Array of all keys
  * @param {string} entered Text already entered
  * @param {string} pressedKey Pressed letter / key in lowercase (Event.key)
- * @returns {[Keys[], string]} Tuple of keys and updated entered string
+ * @returns {Object[]} Tuple of keys and updated entered string
  */
 export const updateKeys = (keys, entered, pressedKey) => {
   const lastLetter = (entered.length > 0) ? fp.last(entered) : '';
