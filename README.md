@@ -80,4 +80,4 @@ MIT
 
 [nvm]: https://github.com/creationix/nvm
 [package_json]: https://github.com/kmARC/word-puzzle/blob/master/package.json
-[scrapmaker][http://scrapmaker.com/view/language/Nouns(5,449).txt]
+[scrapmaker]: http://scrapmaker.com/view/language/Nouns(5,449).txt
