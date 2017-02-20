@@ -1,0 +1,6 @@
+<div class="GameComponent ">
+  <p>{{$ctrl.remaining}}</p>
+  <p><kbd ng-repeat="x in $ctrl.keys" ng-class="{used: x.used}">{{ x.ch }}</kbd></p>
+  <p><kbd ng-repeat="x in $ctrl.enteredKeys" >{{ x.ch }}</kbd></p>
+  <button type="button" class="btn btn-default" ng-click="$ctrl.end()" ng-disabled="! $ctrl.started">End!</button>
+</div>
