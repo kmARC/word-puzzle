@@ -2,18 +2,13 @@ import fp from 'lodash/fp';
 
 import { shuffle, toKeys, updateKeys } from '../Game';
 
-const WORDS = [
-  'pizza',
-  'slice',
-  'tomato',
-];
-
 /**
  * @class
  * @classdesc Controller for the Game component.
  * All members are bound to the `$ctrl` object on `<game-component>`
  */
-function GameController($document, $scope, $timeout, $interval, $location, state, firebase) {
+function GameController(
+  $document, $scope, $timeout, $interval, $location, state, firebase) {
   'ngInject';
 
   const ctrl = this;

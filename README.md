@@ -66,9 +66,18 @@ for development
 * firebase for data persistence
 * lodash for pure functional style programming
 
+### 3rd party assets
+
+Word list is obtained from [scrapmaker.com][scrapmaker]. A convenience awk
+script has been developed to convert the wordlist into a JSON file that can be
+digested by firebase.
+
+See [txtToJson.awk](https://github.com/kmARC/word-puzzle/blob/master/scripts/txtToJson.awk).
+
 ## License
 
 MIT
 
 [nvm]: https://github.com/creationix/nvm
 [package_json]: https://github.com/kmARC/word-puzzle/blob/master/package.json
+[scrapmaker][http://scrapmaker.com/view/language/Nouns(5,449).txt]

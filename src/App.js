@@ -37,7 +37,6 @@ App.service('state', () => {});
 App.service('firebase', function init() {
   this.firebaseApp = firebase.initializeApp(firebaseConfig);
   this.database = this.firebaseApp.database();
-
 });
 
 export default App;

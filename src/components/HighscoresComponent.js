@@ -17,6 +17,11 @@ function HighscoresController($scope, $location, firebase) {
     $location.url('/game');
   };
 
+  /** Navigates to the welcome page to switch player name */
+  this.otherPlayer = () => {
+    $location.url('/');
+  };
+
   firebase.database.ref('/highscores').on('value', (snapshot) => {
     const vals = snapshot.val();
     const mapper = key => ({ username: key, score: vals[key] });
