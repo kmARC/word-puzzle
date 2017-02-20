@@ -13,6 +13,7 @@ For a hosted version **[click here](https://kmarc.github.io/word-puzzle/)**.
 
 2. Install node.js and npm. Using the [node version manager (nvm)][nvm] is an easy
     choice.
+
     ``` bash
         # Install nvm
         curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
@@ -24,7 +25,9 @@ For a hosted version **[click here](https://kmarc.github.io/word-puzzle/)**.
         # Upgrade to latest npm
         npm install npm -g
     ```
+
 3. Clone the word-puzzle repository and install locally
+
     ``` bash
         # Clone locally
         git clone https://github.com/kmARC/word-puzzle.git
@@ -34,7 +37,8 @@ For a hosted version **[click here](https://kmarc.github.io/word-puzzle/)**.
         npm install
         npm start
     ```
-4. Navigate to http://localhost:8080/
+
+4. Navigate to http://localhost:8080/dist/index.html
 
 ## Development
 
@@ -49,7 +53,7 @@ for development
 * nyc /Istambul/ for code coverage `npm run coverage` (creates `coverage` dir)
 * jsdoc for code documentation `npm run jsdoc` (creates `jsdoc` dir)
 * eslint for code linting `npm run eslint`
-* gh-pages-deploy for poor man's deployment `gh-pages-deploy`
+* gh-pages for poor man's deployment `npm run deploy`
 * babel for ES2016 -> old school javascript compilation
 * webpack for module and asset bundling for the browser `npm run build`
 
