@@ -102,26 +102,35 @@ describe('GameTest', () => {
     let e;
     let r;
 
-    v = PIZZA.slice(0);
-    e = [[{ id: 0, ch: 'p', used: false },
-         { id: 1, ch: 'i', used: true },
-         { id: 2, ch: 'z', used: false },
-         { id: 3, ch: 'z', used: false },
-         { id: 4, ch: 'a', used: false }], 'i'];
-    r = updateKeys(v, '', 'i');
+    v = { keys: PIZZA.slice(0), entered: '', penalty: 0 };
+    e = {
+      keys: [{ id: 0, ch: 'p', used: false },
+        { id: 1, ch: 'i', used: true },
+        { id: 2, ch: 'z', used: false },
+        { id: 3, ch: 'z', used: false },
+        { id: 4, ch: 'a', used: false }],
+      entered: 'i',
+      penalty: 0 };
+    r = updateKeys(v, 'i');
     expect(r).to.be.eql(e);
 
-    v = [{ id: 0, ch: 'p', used: true },
+    v = {
+      keys: [{ id: 0, ch: 'p', used: true },
          { id: 1, ch: 'i', used: true },
          { id: 2, ch: 'z', used: false },
          { id: 3, ch: 'z', used: false },
-         { id: 4, ch: 'a', used: false }];
-    e = [[{ id: 0, ch: 'p', used: true },
+         { id: 4, ch: 'a', used: false }],
+      entered: 'pi',
+      penalty: 0 };
+    e = {
+      keys: [{ id: 0, ch: 'p', used: true },
          { id: 1, ch: 'i', used: true },
          { id: 2, ch: 'z', used: true },
          { id: 3, ch: 'z', used: false },
-         { id: 4, ch: 'a', used: false }], 'piz'];
-    r = updateKeys(v, 'pi', 'z');
+         { id: 4, ch: 'a', used: false }],
+      entered: 'piz',
+      penalty: 0 };
+    r = updateKeys(v, 'z');
     expect(r).to.be.eql(e);
   });
 });

@@ -1,3 +1,5 @@
+import fp from 'lodash/fp';
+
 import { shuffle, toKeys, updateKeys } from '../Game';
 
 const WORDS = [
@@ -21,6 +23,8 @@ function GameController($document, $scope, $timeout, $interval, $location, state
   this.keys = [];
   this.entered = '';
   this.remaining = 40;
+  this.penalty = 0;
+  this.score = 0;
 
   /** Replaces the word to guess */
   this.nextWord = () => {
@@ -30,19 +34,29 @@ function GameController($document, $scope, $timeout, $interval, $location, state
   };
 
   /**
+  * Creates Game State object
+  * @returns {Game.State} current state of game
+  */
+  const getGameState = () => fp.pick(['keys', 'entered', 'penalty'])(ctrl);
+  console.log(getGameState());
+
+  /**
    * Action listener. Handy for the keyUp event
    * @param {KeyboardEvent}
    * @listens KeyboardEvent
    */
   this.changed = (e) => {
     const letter = e.key.toLowerCase();
-    const [keys, entered] = updateKeys(ctrl.keys, ctrl.entered, letter);
-    ctrl.entered = entered;
-    ctrl.keys = keys;
-    ctrl.enteredKeys = toKeys(entered);
+    const gameState = updateKeys(getGameState(), letter);
+    ctrl.entered = gameState.entered;
+    ctrl.keys = gameState.keys;
+    ctrl.enteredKeys = toKeys(gameState.entered);
+    ctrl.penalty = gameState.penalty;
+    $scope.$apply();
 
     if (ctrl.currentWord.length === ctrl.entered.length) {
       if (ctrl.currentWord === ctrl.entered) {
+        ctrl.score += Math.floor(1.95 ** (ctrl.currentWord.length / 3));
       }
       $timeout(() => {
         ctrl.nextWord();
@@ -64,13 +78,14 @@ function GameController($document, $scope, $timeout, $interval, $location, state
   /** End a game */
   this.end = () => {
     ctrl.started = false;
-    ctrl.keys = [];
-    ctrl.entered = '';
     $document.unbind('keypress', ctrl.changed);
+    $interval.cancel(ctrl.timer);
+
+    firebase.database.ref(`/highscores/${state.username}`).set(Math.max(0, ctrl.score - ctrl.penalty));
+
     $timeout(() => {
       $location.url('/highscores');
     }, 1000);
-    $interval.cancel(ctrl.timer);
   };
 
 

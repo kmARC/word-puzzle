@@ -1,7 +1,7 @@
 /**
  * Game logic is here
  * @module Game
- * @see module:components/GameComponent
+ * @see GameComponent
  */
 
 import fp from 'lodash/fp';
@@ -29,6 +29,13 @@ export const shuffle = str => shuffleP('', str);
  * @property {number} id ID to identify a key
  * @property {string} ch Character displayed on key
  * @property {boolean} used Is a key already used?
+ */
+
+/**
+ * @typedef {Object} State
+ * @property {string} entered Currently entered letters
+ * @property {Key[]} keys State of the keys
+ * @property {number} penalty Current penalties (e.g. backspace presses)
  */
 
 /**
@@ -71,16 +78,22 @@ export const isUnused =
 
 /**
  * Update keys based on the already entered word and last pressed key
- * @param {Key[]} keys Array of all keys
- * @param {string} entered Text already entered
+ * @method
+ * @param {State} state Current state
  * @param {string} pressedKey Pressed letter / key in lowercase (Event.key)
- * @returns {Object[]} Tuple of keys and updated entered string
+ * @returns {State} Updated State
  */
-export const updateKeys = (keys, entered, pressedKey) => {
-  const lastLetter = (entered.length > 0) ? fp.last(entered) : '';
-  return (pressedKey.match(/^[a-zA-Z]$/) && isUnused(keys, pressedKey))
-    ? [useKey(keys, pressedKey), entered + pressedKey]
+export const updateKeys = (state, pressedKey) => {
+  const lastLetter = (state.entered.length > 0) ? fp.last(state.entered) : '';
+  return (pressedKey.match(/^[a-z]$/) && isUnused(state.keys, pressedKey))
+    ? {
+      keys: useKey(state.keys, pressedKey),
+      entered: state.entered + pressedKey,
+      penalty: state.penalty }
     : (pressedKey === 'backspace')
-    ? [useKey(keys, lastLetter, false), fp.initial(entered).join('')]
-    : [keys, entered];
+    ? {
+      keys: useKey(state.keys, lastLetter, false),
+      entered: fp.initial(state.entered).join(''),
+      penalty: state.penalty + 1 }
+    : state;
 };
