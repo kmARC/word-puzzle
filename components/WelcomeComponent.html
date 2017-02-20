@@ -1,10 +1,10 @@
 <div class="WelcomeComponent active">
   <form>
     <div class="form-group">
-      <input class="form-control" placeholder="Username" ng-model="$ctrl.username"></input>
+      <input class="form-control" placeholder="Username" ng-model="$ctrl.username" autofocus="on">
     </div>
     <div class="form-group">
-      <button type="button" class="btn btn-default" ng-click="$ctrl.start()">Start!</button>
+      <input type="submit" class="btn btn-default" ng-click="$ctrl.start()" value="Start!">
     </div>
   </form>
 </div>
